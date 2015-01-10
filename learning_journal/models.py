@@ -38,4 +38,13 @@ class Entry(Base):
     body = Column(Unicode, nullable=True)
     created = Column(DateTime, default=datetime.datetime.now)
     edited = Column(DateTime, default=datetime.datetime.now)
+    
+    @classmethod
+    def by_id(self, entryid):
+        return Session.query(Entry).filter(entries.id==entryid).first()
+
+    @classmethod
+    def find_all(self):
+        return Session.query(Entry).order_by(entries.id).all()
+
 
