@@ -45,6 +45,6 @@ class Entry(Base):
 
     @classmethod
     def find_all(self):
-        return Session.query(Entry).order_by(entries.id).all()
+        return Session.query(Entry).order_by(entries.id).asc().all()
 
 
