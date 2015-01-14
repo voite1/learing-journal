@@ -44,7 +44,7 @@ class Entry(Base):
     def all(cls):
         """return a query with all entries, ordered by creation date reversed
         """
-        return DBSession.query(cls).order_by(sa.desc(cls.created)).all()
+        return DBSession.query(cls).order_by(cls.created).all()
 
     @classmethod
     def by_id(cls, id):
