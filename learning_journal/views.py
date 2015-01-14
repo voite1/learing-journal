@@ -1,11 +1,13 @@
 from pyramid.response import Response
 from pyramid.view import view_config
+from pyramid.exceptions import HTTPNotFound
 
 from sqlalchemy.exc import DBAPIError
 
 from .models import (
     DBSession,
     MyModel,
+    Entry,
     )
 
 """
@@ -18,13 +20,18 @@ def my_view(request):
     return {'one': one, 'project': 'learning_journal'}
 """
 
-@view_config(route_name='home', renderer='string')
+@view_config(route_name='home', renderer='templates/list.jinja2')
 def index_page(request):
-    return 'list page'
+    entries = Entry.all()
+    return {'entries': entries}
 
-@view_config(route_name='detail', renderer='string')
+@view_config(route_name='detail', renderer='/templates/detail.jinja2')
 def view(request):
-    return 'detail page'
+    this_id = request.matchdict.get('id', -1)
+    entry = Entry.by_id(this_id)
+    if not entry:
+        return HTTPNotFound()
+    return {'entry': entry}
 
 @view_config(route_name='action', match_param='action=create', renderer='string')
 def create(request):
