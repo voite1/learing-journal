@@ -7,6 +7,7 @@ from sqlalchemy import (
     Text,
     Unicode,
     DateTime,
+    UnicodeText,
     )
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -35,16 +36,20 @@ class Entry(Base):
     __tablename__ = 'entries'
     id = Column(Integer, primary_key=True)
     title = Column(Unicode(length=255), nullable=False, unique=True)
-    body = Column(Unicode, nullable=True)
+    body = Column(Unicode, nullable=True, default=u'')
     created = Column(DateTime, default=datetime.datetime.now)
     edited = Column(DateTime, default=datetime.datetime.now)
     
     @classmethod
-    def by_id(self, entryid):
-        return Session.query(Entry).filter(entries.id==entryid).first()
+    def all(cls):
+        """return a query with all entries, ordered by creation date reversed
+        """
+        return DBSession.query(cls).order_by(sa.desc(cls.created)).all()
 
     @classmethod
-    def find_all(self):
-        return Session.query(Entry).order_by(entries.id).asc().all()
-
+    def by_id(cls, id):
+        """return a single entry identified by id
+        If no entry exists with the provided id, return None
+        """
+        return DBSession.query(cls).get(id)
 
