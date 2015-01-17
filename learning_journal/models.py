@@ -53,3 +53,9 @@ class Entry(Base):
         """
         return DBSession.query(cls).get(id)
 
+class User(Base):
+    __tablename__ = 'user'
+    id=Column(Integer, primary_key=True)
+    username=Column(Unicode(length=255), nullable=False, unique=True)
+    password=Column(Unicode, nullable=False)
+

@@ -1,3 +1,5 @@
+{% extends "layout.jinja2" %}
+{% block body %}
 <article>
   <h1>{{ entry.title }}</h1>
   <hr/>
@@ -5,3 +7,4 @@
   <hr/>
   <p>Created <strong title"{{ entry.created }}">{{ entry.created}}</strong></p>
 </article>
+{% endblock %}

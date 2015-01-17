@@ -1,3 +1,5 @@
+{% extends "layout.jinja2" %}
+{% block body %}
 {% if entries %}
 <h2>Journal Entries</h2>
 <ul>
@@ -10,3 +12,4 @@
 {% else %}
 <p>This journal is empty</p>
 {% endif %}
+{% endblock %}
