@@ -50,7 +50,7 @@ def update(request):
     entry = Entry.by_id(id)
     if not entry:
         return HTTPNotFound()
-    form = BlogUpdateForm(request.POST, entry)
+    form = EntryUpdateForm(request.POST, entry)
     if request.method == 'POST' and form.validate():
         form.populate_obj(entry)
         return HTTPFound(location=request.route_url('home'))
