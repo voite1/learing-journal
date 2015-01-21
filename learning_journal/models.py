@@ -1,5 +1,7 @@
 import datetime
 
+from cryptacular.pbkdf2 import PBKDF2PasswordManager as Manager
+
 from sqlalchemy import (
     Column,
     Index,
@@ -56,6 +58,14 @@ class Entry(Base):
 class User(Base):
     __tablename__ = 'user'
     id=Column(Integer, primary_key=True)
-    username=Column(Unicode(length=255), nullable=False, unique=True)
+    name=Column(Unicode(length=255), nullable=False, unique=True)
     password=Column(Unicode, nullable=False)
+
+    def verify_password(self, password):
+        manager = Manager()
+        return manager.check(self.password, password)
+
+    @classmethod
+    def by_name(cls, name):
+        return DBSession.query(User).filter(User.name == name).first()
 
